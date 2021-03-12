@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:26257/nts_dev
+    username: ntsdev_user
+    password:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.CockroachDB201Dialect
+  liquibase:
+    # to be kept true only during the first migration to environment
+    drop-first: false
+    # to be kept true only during the first migration to environment
+    enabled: true
+    change-log: classpath:db/changelog/changelog-master.xml

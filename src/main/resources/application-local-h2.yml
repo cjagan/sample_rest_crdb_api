@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:~/test
+    user: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+
+  liquibase:
+    # to be kept true only during the first migration to environment
+    drop-first: false
+    # to be kept true only during the first migration to environment
+    enabled: true
+    change-log: classpath:db/changelog/changelog-master.xml
