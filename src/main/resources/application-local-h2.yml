@@ -18,3 +18,14 @@ spring:
     # to be kept true only during the first migration to environment
     enabled: true
     change-log: classpath:db/changelog/changelog-master.xml
+
+##Loging levels
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        #core: DEBUG
+    root: ERROR
+    com:
+      sample: INFO

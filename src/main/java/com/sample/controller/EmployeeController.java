@@ -23,7 +23,7 @@ public class EmployeeController {
     EmployeeRepository employeeRepository;
 
 
-    @GetMapping("/employees")
+    @GetMapping("/AllEmployeeList")
     public ResponseEntity<List<Employee>> getAllEmployee() {
         try {
             List<Employee> employees = new ArrayList<Employee>();
@@ -38,7 +38,7 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/employees/{id}")
+    @GetMapping("/GetEmployee/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") int id) {
         Optional<Employee> employeeData = employeeRepository.findById(id);
 
@@ -49,7 +49,7 @@ public class EmployeeController {
         }
     }
 
-    @PostMapping("/employees")
+    @PostMapping("/AddEmployee")
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
         try {
             Employee _employee = employeeRepository
@@ -64,7 +64,7 @@ public class EmployeeController {
         }
     }
 
-    @PutMapping("/employees/{id}")
+    @PutMapping("/updateEployee/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable("id") int id, @RequestBody Employee employee) {
         Optional<Employee> employeeData = employeeRepository.findById(id);
 
@@ -79,7 +79,7 @@ public class EmployeeController {
         }
     }
 
-    @DeleteMapping("/employees/{id}")
+    @DeleteMapping("/DeleteEmployee/{id}")
     public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable("id") int id) {
         try {
             employeeRepository.deleteById(id);
@@ -89,7 +89,7 @@ public class EmployeeController {
         }
     }
 
-    @DeleteMapping("/employees")
+    @DeleteMapping("/DeleteAllEmployees")
     public ResponseEntity<HttpStatus> deleteEmployees() {
         try {
             employeeRepository.deleteAll();
@@ -97,8 +97,6 @@ public class EmployeeController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
-
 }
 
