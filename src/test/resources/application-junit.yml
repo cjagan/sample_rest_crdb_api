@@ -1,7 +1,5 @@
 spring:
-#  redis:
-#    host: localhost
-#    port: 6380
+
   liquibase:
     # to be kept true only during the first migration to environment
     drop-first: false
@@ -16,6 +14,7 @@ spring:
   h2:
     console:
       enabled: true
+      path: /h2-console
   mvc:
     log-request-details: true
   jpa:

@@ -1,7 +1,7 @@
 package com.sample.controller;
 
-import com.sample.repository.EmployeeRepository;
 import com.sample.entity.Employee;
+import com.sample.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +39,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getTutorialById(@PathVariable("id") int id) {
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") int id) {
         Optional<Employee> employeeData = employeeRepository.findById(id);
 
         if (employeeData.isPresent()) {
@@ -50,7 +50,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public ResponseEntity<Employee> createTutorial(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
         try {
             Employee _employee = employeeRepository
                     .save(Employee.builder()
@@ -65,7 +65,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/employees/{id}")
-    public ResponseEntity<Employee> updateTutorial(@PathVariable("id") int id, @RequestBody Employee employee) {
+    public ResponseEntity<Employee> updateEmployee(@PathVariable("id") int id, @RequestBody Employee employee) {
         Optional<Employee> employeeData = employeeRepository.findById(id);
 
         if (employeeData.isPresent()) {
@@ -80,7 +80,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/employees/{id}")
-    public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") int id) {
+    public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable("id") int id) {
         try {
             employeeRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -90,7 +90,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/employees")
-    public ResponseEntity<HttpStatus> deleteAllTutorials() {
+    public ResponseEntity<HttpStatus> deleteEmployees() {
         try {
             employeeRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
