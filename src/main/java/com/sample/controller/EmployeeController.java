@@ -2,6 +2,7 @@ package com.sample.controller;
 
 import com.sample.entity.Employee;
 import com.sample.repository.EmployeeRepository;
+import com.sample.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,15 +21,13 @@ import java.util.Optional;
 public class EmployeeController {
 
     @Autowired
-    EmployeeRepository employeeRepository;
+    EmployeeService employeeService;
 
 
     @GetMapping("/AllEmployeeList")
     public ResponseEntity<List<Employee>> getAllEmployee() {
         try {
-            List<Employee> employees = new ArrayList<Employee>();
-            employeeRepository.findAll().forEach(employees::add);
-
+            List<Employee> employees = employeeService.getAllEmployees();
             if (employees.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -40,7 +39,7 @@ public class EmployeeController {
 
     @GetMapping("/GetEmployee/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") int id) {
-        Optional<Employee> employeeData = employeeRepository.findById(id);
+        Optional<Employee> employeeData = employeeService.getEmployeeById(id);
 
         if (employeeData.isPresent()) {
             return new ResponseEntity<>(employeeData.get(), HttpStatus.OK);
@@ -52,28 +51,17 @@ public class EmployeeController {
     @PostMapping("/AddEmployee")
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
         try {
-            Employee _employee = employeeRepository
-                    .save(Employee.builder()
-                            .employeeName(employee.getEmployeeName())
-                            .email(employee.getEmail())
-                            .salary(employee.getSalary())
-                            .build());
+            Employee _employee =  employeeService.addEmployee(employee);
             return new ResponseEntity<>(_employee, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/updateEployee/{id}")
+    @PutMapping("/updateEmployee/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable("id") int id, @RequestBody Employee employee) {
-        Optional<Employee> employeeData = employeeRepository.findById(id);
-
-        if (employeeData.isPresent()) {
-            Employee _employee = employeeData.get();
-            _employee.setEmployeeName(employee.getEmployeeName());
-            _employee.setEmail(employee.getEmail());
-            _employee.setSalary(employee.getSalary());
-            return new ResponseEntity<>(employeeRepository.save(_employee), HttpStatus.OK);
+         if (employeeService.updateEmployee(id,employee)) {
+            return new ResponseEntity<>( HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -82,8 +70,9 @@ public class EmployeeController {
     @DeleteMapping("/DeleteEmployee/{id}")
     public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable("id") int id) {
         try {
-            employeeRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+           employeeService.deleteEmployee(id);
+               return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -92,7 +81,7 @@ public class EmployeeController {
     @DeleteMapping("/DeleteAllEmployees")
     public ResponseEntity<HttpStatus> deleteEmployees() {
         try {
-            employeeRepository.deleteAll();
+            employeeService.deleteEmployees();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

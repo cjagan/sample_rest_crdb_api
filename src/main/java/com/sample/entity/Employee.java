@@ -27,4 +27,10 @@ public class Employee {
 
     @Column(name="salary")
     private BigDecimal salary;
+
+    public Employee(String employeeName, String email, BigDecimal salary) {
+        this.employeeName = employeeName;
+        this.email = email;
+        this.salary = salary;
+    }
 }
